@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: web_client_app_databases
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: WebApp_RomanovDA_Ae_21_22_N_7
+    ports:
+      - "5436:5432"

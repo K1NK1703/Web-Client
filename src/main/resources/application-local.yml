@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: ${DB_DRIVER:jdbc:postgresql}://${DB_HOST:localhost}:${DB_PORT:5436}/${DB_NAME:WebApp_RomanovDA_Ae_21_22_N_7}?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:1234}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: ${DLL_MODE:none}
