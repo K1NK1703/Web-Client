@@ -33,7 +33,10 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
-    public void updateType(Type type) {
+    public void updateType(Long id, Type type) {
+        if (!id.equals(type.getId())) {
+            throw new RuntimeException("Type id not match");
+        }
         typeRepository.saveAndFlush(type);
     }
 

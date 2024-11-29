@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mpei.romanov.databases.web_client_app.dto.response.EventResponseDto;
+import ru.mpei.romanov.databases.web_client_app.dto.response.FactorySensorEventDto;
 import ru.mpei.romanov.databases.web_client_app.entity.event.Event;
 import ru.mpei.romanov.databases.web_client_app.service.dto.EventDtoService;
 import ru.mpei.romanov.databases.web_client_app.service.entity.EventService;
@@ -26,6 +27,12 @@ public class EventRestController {
     @GetMapping("/events")
     public List<EventResponseDto> getAllEvents() {
         return eventDtoService.getAllEventsDto();
+    }
+
+    @GetMapping("/fse")
+    public ResponseEntity<List<FactorySensorEventDto>> getSensorEvents() {
+        List<FactorySensorEventDto> events = eventDtoService.getSensorEvents();
+        return ResponseEntity.ok(events);
     }
 
     @PostMapping

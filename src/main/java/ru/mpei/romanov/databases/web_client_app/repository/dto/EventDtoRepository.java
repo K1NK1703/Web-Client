@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.mpei.romanov.databases.web_client_app.dto.response.EventResponseDto;
+import ru.mpei.romanov.databases.web_client_app.dto.response.FactorySensorEventDto;
 import ru.mpei.romanov.databases.web_client_app.entity.event.Event;
 
 import java.util.List;
@@ -33,4 +34,7 @@ public interface EventDtoRepository extends JpaRepository<Event, Long> {
             LEFT JOIN TemperatureEvent t ON p.id = t.id
             WHERE e.id = :id""")
     Optional<EventResponseDto> getEventDtoById(@Param("id") Long id);
+
+    @Query(value = "SELECT * FROM factorysensorevents", nativeQuery = true)
+    Optional<List<FactorySensorEventDto>> getSensorEvents();
 }

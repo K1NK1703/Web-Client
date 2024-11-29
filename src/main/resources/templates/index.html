@@ -1,51 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Admin и User панели</title>
+    <style>
+        .modal-body {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
 </head>
 <body>
+
 <!-- Header -->
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <a href="#" id="header" class="navbar-brand"></a>
         <a class="text-decoration-none font-weight-bold text-secondary" th:href="@{/logout}" th:method="POST">Logout</a>
     </div>
-</nav>
-<br/>
+</nav><br/>
 
 <!-- Tabs -->
 <div class="container">
-    <ul class="nav nav-tabs" id="roleTabs">
+    <ul class="nav nav-tabs" id="userTabs" role="tablist">
         <li class="nav-item">
-            <button class="nav-link active" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin" type="button">Admin</button>
+            <a class="nav-link active" data-toggle="tab" href="#adminTab" role="tab">Admin</a>
         </li>
         <li class="nav-item">
-            <button class="nav-link" id="user-tab" data-bs-toggle="tab" data-bs-target="#user" type="button">User</button>
+            <a class="nav-link" data-toggle="tab" href="#userTab" role="tab">User</a>
         </li>
     </ul>
-    <div class="tab-content mt-3">
-        <!-- Admin Panel -->
-        <div class="tab-pane fade show active" id="admin">
-            <ul class="nav nav-pills mb-3" id="adminSubTabs">
+
+    <div class="tab-content">
+        <!-- Admin Tab -->
+        <div class="tab-pane fade" id="adminTab" role="tabpanel">
+            <ul class="nav nav-pills mt-3">
                 <li class="nav-item">
-                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#events">Event</button>
+                    <a class="nav-link active" data-toggle="pill" href="#eventsTab">Events</a>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#editors">Editors</button>
+                    <a class="nav-link" data-toggle="pill" href="#editorsTab">Editors</a>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#users">Users</button>
+                    <a class="nav-link" data-toggle="pill" href="#usersTab">Users</a>
                 </li>
             </ul>
-            <div class="tab-content">
-                <div class="tab-pane fade show active" id="events">
-                    <button class="btn btn-primary mb-3" onclick="openModal('addEvent')">Add New Event</button>
-                    <table class="table table-striped">
+
+            <!-- Events Table -->
+            <div class="tab-content mt-3">
+                <div class="tab-pane fade show active" id="eventsTab" role="tabpanel">
+                    <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#addEventModal">Add new Event</button>
+                    <table class="table table-bordered">
                         <thead>
                         <tr>
                             <th>ID</th>
@@ -58,33 +65,37 @@
                             <th>Actions</th>
                         </tr>
                         </thead>
-                        <tbody id="eventTableBody">
-                        <!-- Event rows added dynamically -->
-                        </tbody>
+                        <tbody id="eventsTableBody"></tbody>
                     </table>
+
+                    <!-- Add Event Modal -->
+                    <!-- Modal code goes here -->
+
                 </div>
-                <div class="tab-pane fade" id="editors">
-                    <button class="btn btn-primary mb-3" onclick="openModal('addEditor')">Add New Editor</button>
-                    <table class="table table-striped">
+
+                <!-- Editors Table -->
+                <div class="tab-pane fade" id="editorsTab" role="tabpanel">
+                    <button type="button" class="btn btn-primary mb-3" onclick="openAddEditorModal()">Add new Editor</button>
+                    <table class="table table-bordered">
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Last Name</th>
-                            <th>First Name</th>
-                            <th>Middle Name</th>
-                            <th>Post</th>
-                            <th>Phone Number</th>
-                            <th>Actions</th>
+                            <th>Фамилия</th>
+                            <th>Имя</th>
+                            <th>Отчество</th>
+                            <th>Должность</th>
+                            <th>Телефон</th>
+                            <th>Действия</th>
                         </tr>
                         </thead>
-                        <tbody id="editorTableBody">
-                        <!-- Editor rows added dynamically -->
-                        </tbody>
+                        <tbody id="editorsTableBody"></tbody>
                     </table>
                 </div>
-                <div class="tab-pane fade" id="users">
-                    <button class="btn btn-primary mb-3" onclick="openModal('addUser')">Add New User</button>
-                    <table class="table table-striped">
+
+                <!-- Users Table -->
+                <div class="tab-pane fade" id="usersTab" role="tabpanel">
+                    <button type="button" class="btn btn-primary mb-3" onclick="openAddUserModal()">Add new User</button>
+                    <table class="table table-bordered">
                         <thead>
                         <tr>
                             <th>ID</th>
@@ -93,191 +104,597 @@
                             <th>Actions</th>
                         </tr>
                         </thead>
-                        <tbody id="userTableBody">
-                        <!-- User rows added dynamically -->
-                        </tbody>
+                        <tbody id="usersTableBody"></tbody>
                     </table>
                 </div>
+
             </div>
+
         </div>
 
-        <!-- User Panel -->
-        <div class="tab-pane fade" id="user">
-            <ul class="nav nav-pills mb-3">
+        <!-- User Tab -->
+        <div class="tab-pane fade" id="userTab" role="tabpanel">
+            <ul class="nav nav-pills mt-3">
                 <li class="nav-item">
-                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#sensors">Sensor</button>
+                    <a class="nav-link active" data-toggle="pill" href="#sensorsTab">Sensors</a>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#factories">Factory</button>
+                    <a class="nav-link" data-toggle="pill" href="#factoriesTab">Factories</a>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#types">Type</button>
+                    <a class="nav-link" data-toggle="pill" href="#typesTab">Types</a>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#views">View</button>
+                    <a class="nav-link" data-toggle="pill" href="#sensorEventsTab">View</a>
                 </li>
             </ul>
-            <div class="tab-content">
-                <div class="tab-pane fade show active" id="sensors">
-                    <button class="btn btn-primary mb-3" onclick="openModal('addSensor')">Add New Sensor</button>
-                    <table class="table table-striped">
+
+            <div class="tab-content mt-3">
+                <!-- Sensors Table -->
+                <div class="tab-pane fade show active" id="sensorsTab" role="tabpanel">
+                    <button type="button" class="btn btn-primary mb-3" onclick="openAddSensorModal()">Add new Sensor</button>
+                    <table class="table table-bordered">
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Type</th>
-                            <th>Location</th>
-                            <th>Factory</th>
-                            <th>Install Date</th>
-                            <th>Actions</th>
+                            <th>Тип (Id)</th>
+                            <th>Местоположение</th>
+                            <th>Завод-производитель (Id)</th>
+                            <th>Дата установки</th>
+                            <th>Редактор (Id)</th>
+                            <th>Событие (Id)</th>
+                            <th>Действия</th>
                         </tr>
                         </thead>
-                        <tbody id="sensorTableBody">
-                        <!-- Sensor rows added dynamically -->
-                        </tbody>
+                        <tbody id="sensorsTableBody"></tbody>
                     </table>
                 </div>
-                <div class="tab-pane fade" id="factories">
-                    <button class="btn btn-primary mb-3" onclick="openModal('addFactory')">Add New Factory</button>
-                    <table class="table table-striped">
+
+                <!-- Factories Table -->
+                <div class="tab-pane fade" id="factoriesTab" role="tabpanel">
+                    <button type="button" class="btn btn-primary mb-3" onclick="openAddFactoryModal()">Add new Factory</button>
+                    <table class="table table-bordered">
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Name</th>
-                            <th>Location</th>
-                            <th>Actions</th>
+                            <th>Название</th>
+                            <th>Местоположение</th>
+                            <th>Действия</th>
                         </tr>
                         </thead>
-                        <tbody id="factoryTableBody">
-                        <!-- Factory rows added dynamically -->
-                        </tbody>
+                        <tbody id="factoriesTableBody"></tbody>
                     </table>
                 </div>
-                <div class="tab-pane fade" id="types">
-                    <button class="btn btn-primary mb-3" onclick="openModal('addType')">Add New Type</button>
-                    <table class="table table-striped">
+
+                <!-- Types Table -->
+                <div class="tab-pane fade" id="typesTab" role="tabpanel">
+                    <button type="button" class="btn btn-primary mb-3" onclick="openAddTypeModal()">Add new Type</button>
+                    <table class="table table-bordered">
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Name</th>
-                            <th>Actions</th>
+                            <th>Название</th>
+                            <th>Действия</th>
                         </tr>
                         </thead>
-                        <tbody id="typeTableBody">
-                        <!-- Type rows added dynamically -->
-                        </tbody>
+                        <tbody id="typesTableBody"></tbody>
                     </table>
                 </div>
-                <div class="tab-pane fade" id="views">
-                    <button class="btn btn-primary mb-3" onclick="openModal('addView')">Add New View</button>
-                    <table class="table table-striped">
+
+                <div class="tab-pane fade" id="sensorEventsTab" role="tabpanel">
+                    <table class="table">
                         <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Actions</th>
+                            <th>Название фабрики</th>
+                            <th>Локация фабрики</th>
+                            <th>Локация сенсора</th>
+                            <th>Тип сенсора</th>
+                            <th>Время события</th>
+                            <th>Температура</th>
+                            <th>Давление</th>
+                            <th>Выброс газа</th>
+                            <th>Качество воздуха</th>
+                            <th>Уровень логирования</th>
+                            <th>Зона - Уровень логирования</th>
                         </tr>
                         </thead>
-                        <tbody id="viewTableBody">
-                        <!-- View rows added dynamically -->
-                        </tbody>
+                        <tbody id="sensorEventsTableBody"></tbody>
                     </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Add Event Modal -->
+    <div class="modal fade" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addEventLabel">Добавить новое событие</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addEventForm">
+                        <div class="form-group">
+                            <label for="eventTime">Время</label>
+                            <input type="datetime-local" class="form-control" id="eventTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventAirQuality">Качество воздуха</label>
+                            <input type="number" step="0.01" class="form-control" id="eventAirQuality" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventGasEmission">Выброс газа</label>
+                            <input type="number" step="0.01" class="form-control" id="eventGasEmission" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventLoggingLevel">Уровень логирования</label>
+                            <input type="text" class="form-control" id="eventLoggingLevel" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventPressure">Давление</label>
+                            <input type="number" step="0.01" class="form-control" id="eventPressure" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventTemperature">Температура</label>
+                            <input type="number" step="0.01" class="form-control" id="eventTemperature" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addNewEvent()">Save</button>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Add Event Modal -->
-<div class="modal fade" id="addEventModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addEventModalLabel">Add New Event</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="addEventForm">
-                    <div class="mb-3">
-                        <label for="addTime" class="form-label">Time</label>
-                        <input type="datetime-local" class="form-control" id="addTime" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addAirQuality" class="form-label">Air Quality</label>
-                        <input type="number" class="form-control" id="addAirQuality" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addGasEmission" class="form-label">Gas Emission</label>
-                        <input type="number" class="form-control" id="addGasEmission" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addLoggingLevel" class="form-label">Logging Level</label>
-                        <input type="text" class="form-control" id="addLoggingLevel" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addPressure" class="form-label">Pressure</label>
-                        <input type="number" class="form-control" id="addPressure" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addTemperature" class="form-label">Temperature</label>
-                        <input type="number" class="form-control" id="addTemperature" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveAddEvent">Save</button>
+    <!-- Edit Event Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editLabel">Редактировать событие</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editEventForm">
+                        <div class="form-group">
+                            <label for="editEventId">ID</label>
+                            <input type="text" class="form-control" id="editEventId" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEventTime">Время</label>
+                            <input type="datetime-local" class="form-control" id="editEventTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEventAirQuality">Качество воздуха</label>
+                            <input type="number" step="0.01" class="form-control" id="editEventAirQuality" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEventGasEmission">Выброс газа</label>
+                            <input type="number" step="0.01" class="form-control" id="editEventGasEmission" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEventLoggingLevel">Уровень логирования</label>
+                            <input type="text" class="form-control" id="editEventLoggingLevel" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEventPressure">Давление</label>
+                            <input type="number" step="0.01" class="form-control" id="editEventPressure" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEventTemperature">Температура</label>
+                            <input type="number" step="0.01" class="form-control" id="editEventTemperature" required>
+                        </div>
+                    </form>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
+                    <button type='button' class='btn btn-primary' onclick='editEvent()'>Edit</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Edit Event Modal -->
-<div class="modal fade" id="editEventModal" tabindex="-1" aria-labelledby="editEventModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editEventModalLabel">Edit Event</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editEventForm">
-                    <div class="mb-3">
-                        <label for="editTime" class="form-label">Time</label>
-                        <input type="datetime-local" class="form-control" id="editTime" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editAirQuality" class="form-label">Air Quality</label>
-                        <input type="number" class="form-control" id="editAirQuality" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editGasEmission" class="form-label">Gas Emission</label>
-                        <input type="number" class="form-control" id="editGasEmission" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editLoggingLevel" class="form-label">Logging Level</label>
-                        <input type="text" class="form-control" id="editLoggingLevel" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editPressure" class="form-label">Pressure</label>
-                        <input type="number" class="form-control" id="editPressure" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editTemperature" class="form-label">Temperature</label>
-                        <input type="number" class="form-control" id="editTemperature" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveEditEvent">Save Changes</button>
+    <!-- Add Editor Modal -->
+    <div class="modal fade" id="addEditorModal" tabindex="-1" role="dialog" aria-labelledby="addEditorLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addEditorLabel">Добавить нового редактора</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addEditorForm">
+                        <div class="form-group">
+                            <label for="editorLastName">Фамилия</label>
+                            <input type="text" class="form-control" id="editorLastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editorFirstName">Имя</label>
+                            <input type="text" class="form-control" id="editorFirstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editorMiddleName">Отчество</label>
+                            <input type="text" class="form-control" id="editorMiddleName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editorPost">Должность</label>
+                            <input type="text" class="form-control" id="editorPost" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editorPhoneNumber">Телефон</label>
+                            <input type="text" class="form-control" id="editorPhoneNumber" required pattern="\+?\d{1,4}?\s?\(?\d{1,4}?\)?[\s.-]?\d{1,4}[\s.-]?\d{1,9}">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addNewEditor()">Save</button>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Edit Editor Modal -->
+    <div class="modal fade" id="editEditorModal" tabindex="-1" role="dialog" aria-labelledby="editEditorLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editEditorLabel">Редактировать редактора</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editEditorForm">
+                        <div class="form-group">
+                            <label for="editEditorId">ID</label>
+                            <input type="text" class="form-control" id="editEditorId" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEditorLastName">Фамилия</label>
+                            <input type="text" class="form-control" id="editEditorLastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEditorFirstName">Имя</label>
+                            <input type="text" class="form-control" id="editEditorFirstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEditorMiddleName">Отчество</label>
+                            <input type="text" class="form-control" id="editEditorMiddleName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEditorPost">Должность</label>
+                            <input type="text" class="form-control" id="editEditorPost" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEditorPhoneNumber">Телефон</label>
+                            <input type="text" class="form-control" id="editEditorPhoneNumber" required pattern='\+?\d{1,4}?\s?\(?\d{1,4}?\)?[\s.-]?\d{1,4}[\s.-]?\d{1,9}'>
+                        </div>
+                    </form>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
+                    <button type='button' class='btn btn-primary' onclick='editEditor()'>Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addUserLabel">Добавить нового пользователя</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addUserForm">
+                        <div class="form-group">
+                            <label for="userUsername">Имя пользователя</label>
+                            <input type="text" class="form-control" id="userUsername" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userPassword">Пароль</label>
+                            <input type="password" class="form-control" id="userPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userRoles">Роль</label>
+                            <select multiple class='form-control' id='userRoles' required style='height: 150px;'></select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addNewUser()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editUserLabel">Редактировать пользователя</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editUserForm">
+                        <div class="form-group">
+                            <label for="editUserId">ID</label>
+                            <input type="text" class="form-control" id="editUserId" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editUserUsername">Имя пользователя</label>
+                            <input type="text" class="form-control" id="editUserUsername" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editUserPassword">Пароль</label>
+                            <input type="password" class="form-control" id="editUserPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editUserRoles">Роль</label>
+                            <select multiple class='form-control' id='editUserRoles' required style='height: 150px;'></select>
+                        </div>
+                    </form>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
+                    <button type='button' class='btn btn-primary' onclick='editUser()'>Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Sensor Modal -->
+    <div class="modal fade" id="addSensorModal" tabindex="-1" role="dialog" aria-labelledby="addSensorLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addSensorLabel">Добавить новый датчик</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addSensorForm">
+                        <div class="form-group">
+                            <label for="sensorTypeId">Тип (Id)</label>
+                            <input type="number" class="form-control" id="sensorTypeId" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sensorLocation">Местоположение</label>
+                            <input type="text" class="form-control" id="sensorLocation" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sensorFactoryId">Завод-производитель (Id)</label>
+                            <input type="number" class="form-control" id="sensorFactoryId" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sensorInstallDate">Дата установки</label>
+                            <input type="date" class="form-control" id="sensorInstallDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sensorEditorId">Редактор (Id)</label>
+                            <input type="number" class="form-control" id="sensorEditorId" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sensorEventId">Событие (Id)</label>
+                            <input type="number" class="form-control" id="sensorEventId" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addNewSensor()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Sensor Modal -->
+    <div class="modal fade" id="editSensorModal" tabindex="-1" role="dialog" aria-labelledby="editSensorLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editSensorLabel">Редактировать датчик</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editSensorForm">
+                        <div class="form-group">
+                            <label for="editSensorId">ID</label>
+                            <input type="text" class="form-control" id="editSensorId" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editSensorTypeId">Тип (Id)</label>
+                            <input type="number" class="form-control" id="editSensorTypeId" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editSensorLocation">Местоположение</label>
+                            <input type="text" class="form-control" id="editSensorLocation" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editSensorFactoryId">Завод-производитель (Id)</label>
+                            <input type="number" class="form-control" id="editSensorFactoryId" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editSensorInstallDate">Дата установки</label>
+                            <input type="date" class="form-control" id="editSensorInstallDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editSensorEditorId">Редактор (Id)</label>
+                            <input type="number" class="form-control" id="editSensorEditorId" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editSensorEventId">Событие (Id)</label>
+                            <input type="number" class="form-control" id="editSensorEventId" required>
+                        </div>
+                    </form>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
+                    <button type='button' class='btn btn-primary' onclick='editSensor()'>Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Factory Modal -->
+    <div class="modal fade" id="addFactoryModal" tabindex="-1" role="dialog" aria-labelledby="addFactoryLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addFactoryLabel">Добавить новый завод</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addFactoryForm">
+                        <div class="form-group">
+                            <label for="factoryName">Название</label>
+                            <input type="text" class="form-control" id="factoryName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="factoryLocation">Местоположение</label>
+                            <input type="text" class="form-control" id="factoryLocation" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addNewFactory()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Factory Modal -->
+    <div class="modal fade" id="editFactoryModal" tabindex="-1" role="dialog" aria-labelledby="editFactoryLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editFactoryLabel">Редактировать завод</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editFactoryForm">
+                        <div class="form-group">
+                            <label for="editFactoryId">ID</label>
+                            <input type="text" class="form-control" id="editFactoryId" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editFactoryName">Название</label>
+                            <input type="text" class="form-control" id="editFactoryName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editFactoryLocation">Местоположение</label>
+                            <input type="text" class="form-control" id="editFactoryLocation" required>
+                        </div>
+                    </form>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
+                    <button type='button' class='btn btn-primary' onclick='editFactory()'>Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Factory Modal -->
+    <div class="modal fade" id="addTypeModal" tabindex="-1" role="dialog" aria-labelledby="addTypeLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTypeLabel">Добавить новый тип</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addTypeForm">
+                        <div class="form-group">
+                            <label for="typeName">Название</label>
+                            <input type="text" class="form-control" id="typeName" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addNewType()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Factory Modal -->
+    <div class="modal fade" id="editTypeModal" tabindex="-1" role="dialog" aria-labelledby="editTypeLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editTypeLabel">Редактировать тип</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editTypeForm">
+                        <div class="form-group">
+                            <label for="editTypeId">ID</label>
+                            <input type="text" class="form-control" id="editTypeId" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editTypeName">Название</label>
+                            <input type="text" class="form-control" id="editTypeName" required>
+                        </div>
+                    </form>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
+                    <button type='button' class='btn btn-primary' onclick='editType()'>Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
-
-<script type="text/javascript" src="/js/content.js"></script>
 <script type="text/javascript" src="/js/header.js"></script>
 <script type="text/javascript" src="/js/navbar.js"></script>
+<script type="text/javascript" src="/js/admin/editors.js"></script>
+<script type="text/javascript" src="/js/admin/users.js"></script>
+<script type="text/javascript" src="/js/user/sensors.js"></script>
+<script type="text/javascript" src="/js/user/factories.js"></script>
+<script type="text/javascript" src="/js/user/types.js"></script>
+<script type="text/javascript" src="/js/user/sensorEvents.js"></script>
+
+<script type="text/javascript" src="/js/admin/test.js"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

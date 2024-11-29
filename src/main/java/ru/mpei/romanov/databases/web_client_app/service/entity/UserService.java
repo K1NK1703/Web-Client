@@ -1,5 +1,6 @@
 package ru.mpei.romanov.databases.web_client_app.service.entity;
 
+import ru.mpei.romanov.databases.web_client_app.dto.request.UserRequestDto;
 import ru.mpei.romanov.databases.web_client_app.entity.User;
 
 import java.util.List;
@@ -13,9 +14,9 @@ public interface UserService {
 
     List<User> findAllUsers();
 
-    void saveUser(User user);
+    void saveUser(UserRequestDto user);
 
-    void updateUser(User user);
+    void updateUser(Long id, UserRequestDto user);
 
-    void deleteUser(Long id);
+    void deleteUserById(Long id);
 }

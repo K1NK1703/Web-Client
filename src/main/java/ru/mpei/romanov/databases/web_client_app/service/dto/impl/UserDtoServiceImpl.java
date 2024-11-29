@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.mpei.romanov.databases.web_client_app.dto.response.UserResponseDto;
-import ru.mpei.romanov.databases.web_client_app.repository.dto.UserDtoRepository;
+import ru.mpei.romanov.databases.web_client_app.entity.User;
+import ru.mpei.romanov.databases.web_client_app.repository.entity.UserRepository;
 import ru.mpei.romanov.databases.web_client_app.service.dto.UserDtoService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,11 +16,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserDtoServiceImpl implements UserDtoService {
 
-    private final UserDtoRepository userDtoRepository;
+    private final UserRepository userRepository;
 
     @Override
     public List<UserResponseDto> getAllUsersDto() {
-        return userDtoRepository.getAllUsersDto()
-                .orElseThrow(() -> new RuntimeException("No users found"));
+        List<User> users = userRepository.findAll();
+
+        List<UserResponseDto> usersDto = new ArrayList<>();
+
+        for (User user : users) {
+            UserResponseDto userDto = new UserResponseDto(
+                    user.getId(),
+                    user.getUsername(),
+                    String.join(", ", user.getRoles().stream()
+                            .map(role -> role.getName().replace("ROLE_", "")).toList())
+            );
+            usersDto.add(userDto);
+        }
+
+        return usersDto;
     }
 }

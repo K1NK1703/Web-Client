@@ -38,7 +38,10 @@ public class FactoryServiceImpl implements FactoryService {
     }
 
     @Override
-    public void updateFactory(Factory factory) {
+    public void updateFactory(Long id, Factory factory) {
+        if (!id.equals(factory.getId())) {
+            throw new RuntimeException("id not match");
+        }
         factoryRepository.saveAndFlush(factory);
     }
 

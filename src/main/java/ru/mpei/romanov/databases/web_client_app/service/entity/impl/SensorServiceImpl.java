@@ -44,7 +44,10 @@ public class SensorServiceImpl implements SensorService {
     }
 
     @Override
-    public void updateSensor(Sensor sensor) {
+    public void updateSensor(Long id, Sensor sensor) {
+        if (!id.equals(sensor.getId())) {
+            throw new RuntimeException("id not match");
+        }
         sensorRepository.saveAndFlush(sensor);
     }
 

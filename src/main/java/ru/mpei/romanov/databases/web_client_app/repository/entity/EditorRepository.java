@@ -12,10 +12,10 @@ public interface EditorRepository extends JpaRepository<Editor, Long> {
     void insertEditor(String lastName, String firstName, String middleName, String post, String phoneNumber);
 
     @Modifying
-    @Query(value = "CALL update_editor(:id, :lastName, :firstName, :middleName, :post, :phoneNumber)", nativeQuery = true)
+    @Query(value = "CALL update_editor(cast(:id as INT), :lastName, :firstName, :middleName, :post, :phoneNumber)", nativeQuery = true)
     void updateEditor(Long id, String lastName, String firstName, String middleName, String post, String phoneNumber);
 
     @Modifying
-    @Query(value = "CALL delete_editor(:id)", nativeQuery = true)
+    @Query(value = "CALL delete_editor(cast(:id as INT))", nativeQuery = true)
     void deleteEditorById(Long id);
 }

@@ -34,8 +34,11 @@ public class EditorServiceImpl implements EditorService {
     }
 
     @Override
-    public void updateEditor(Editor editor) {
-        editorRepository.updateEditor(editor.getId(), editor.getLastName(), editor.getFirstName(),
+    public void updateEditor(Long id, Editor editor) {
+        if (!id.equals(editor.getId())) {
+            throw new RuntimeException("id not match");
+        }
+        editorRepository.updateEditor(id, editor.getLastName(), editor.getFirstName(),
                 editor.getMiddleName(), editor.getPost(), editor.getPhoneNumber());
     }
 

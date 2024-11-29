@@ -10,7 +10,7 @@ public record EventRequestDto(Long id,
                               LocalDateTime time,
                               BigDecimal airQuality,
                               BigDecimal gasEmission,
-                              BigDecimal loggingLevel,
+                              String loggingLevel,
                               BigDecimal pressure,
                               BigDecimal temperature) {
 }

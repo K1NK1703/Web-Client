@@ -13,7 +13,7 @@ public interface EditorService {
 
     void addEditor(Editor editor);
 
-    void updateEditor(Editor editor);
+    void updateEditor(Long id, Editor editor);
 
     void deleteEditorById(Long id);
 }

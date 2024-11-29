@@ -15,7 +15,7 @@ public interface FactoryService {
 
     void saveFactory(Factory factory);
 
-    void updateFactory(Factory factory);
+    void updateFactory(Long id, Factory factory);
 
     void deleteFactoryById(Long id);
 }

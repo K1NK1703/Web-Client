@@ -13,7 +13,7 @@ public interface TypeService {
 
     void saveType(Type type);
 
-    void updateType(Type type);
+    void updateType(Long id, Type type);
 
     void deleteTypeById(Long id);
 }
