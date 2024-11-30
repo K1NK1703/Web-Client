@@ -1,16 +1,23 @@
-package ru.mpei.romanov.databases.web_client_app.rest.out;
+package ru.mpei.romanov.databases.web_client_app.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.*;
-import ru.mpei.romanov.databases.web_client_app.dto.request.UserRequestDto;
-import ru.mpei.romanov.databases.web_client_app.dto.response.UserResponseDto;
 import ru.mpei.romanov.databases.web_client_app.entity.User;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ru.mpei.romanov.databases.web_client_app.service.dto.UserDtoService;
 import ru.mpei.romanov.databases.web_client_app.service.entity.UserService;
+import ru.mpei.romanov.databases.web_client_app.dto.request.UserRequestDto;
+import ru.mpei.romanov.databases.web_client_app.dto.response.UserResponseDto;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.security.Principal;
 import java.util.List;

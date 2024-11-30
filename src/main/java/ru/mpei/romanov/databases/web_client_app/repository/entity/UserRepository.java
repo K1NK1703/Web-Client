@@ -1,7 +1,7 @@
 package ru.mpei.romanov.databases.web_client_app.repository.entity;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import ru.mpei.romanov.databases.web_client_app.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 

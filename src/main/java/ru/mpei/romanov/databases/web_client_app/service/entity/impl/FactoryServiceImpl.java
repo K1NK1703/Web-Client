@@ -4,11 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.mpei.romanov.databases.web_client_app.entity.sensor.Factory;
-import ru.mpei.romanov.databases.web_client_app.repository.entity.sensor.FactoryRepository;
 import ru.mpei.romanov.databases.web_client_app.service.entity.FactoryService;
+import ru.mpei.romanov.databases.web_client_app.repository.entity.sensor.FactoryRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -18,18 +17,19 @@ public class FactoryServiceImpl implements FactoryService {
     private final FactoryRepository factoryRepository;
 
     @Override
-    public Optional<Factory> findFactoryById(Long id) {
-        return factoryRepository.findById(id);
-    }
-
-    @Override
-    public Optional<Factory> findFactoryByName(String name) {
-        return factoryRepository.findByName(name);
+    public Factory findFactoryById(Long id) {
+        return factoryRepository.findById(id).orElse(null);
     }
 
     @Override
     public List<Factory> findAllFactories() {
         return factoryRepository.findAll();
+    }
+
+    @Override
+    public String getLongestFactoryName() {
+        return factoryRepository.getLongestFactoryName()
+                .orElseThrow(() -> new RuntimeException("Longest factory name not found"));
     }
 
     @Override

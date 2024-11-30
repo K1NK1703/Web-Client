@@ -4,12 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.mpei.romanov.databases.web_client_app.entity.sensor.Sensor;
-import ru.mpei.romanov.databases.web_client_app.repository.entity.sensor.SensorRepository;
 import ru.mpei.romanov.databases.web_client_app.service.entity.SensorService;
+import ru.mpei.romanov.databases.web_client_app.repository.entity.sensor.SensorRepository;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -19,23 +17,19 @@ public class SensorServiceImpl implements SensorService {
     private final SensorRepository sensorRepository;
 
     @Override
-    public Optional<Sensor> findSensorById(Long id) {
-        return sensorRepository.findById(id);
-    }
-
-    @Override
-    public Optional<Sensor> findSensorByTypeIdAndInstallDate(Long typeId, LocalDate installDate) {
-        return sensorRepository.findByTypeIdAndInstallDate(typeId, installDate);
-    }
-
-    @Override
-    public Optional<Sensor> findSensorByEventIdAndLocation(Long eventId, String location) {
-        return sensorRepository.findByEventIdAndLocation(eventId, location);
+    public Sensor findSensorById(Long id) {
+        return sensorRepository.findById(id).orElse(null);
     }
 
     @Override
     public List<Sensor> findAllSensors() {
         return sensorRepository.findAll();
+    }
+
+    @Override
+    public List<Sensor> getTopSensors() {
+        return sensorRepository.getTopSensors().
+                orElseThrow(() -> new RuntimeException("Top sensors not found"));
     }
 
     @Override

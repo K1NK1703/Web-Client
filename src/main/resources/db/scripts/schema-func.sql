@@ -1,20 +1,20 @@
 -- Создание табличной функции
-CREATE OR REPLACE FUNCTION get_top_10_sensors()
+CREATE OR REPLACE FUNCTION get_top_10_sensors_test()
     RETURNS TABLE
         (
-            sensor_id INT,
-            type_id INT,
+            id BIGINT,
+            type_id BIGINT,
             location VARCHAR,
-            factory_id INT,
+            factory_id BIGINT,
             install_date DATE,
-            editor_id INT,
-            event_id INT
+            editor_id BIGINT,
+            event_id BIGINT
         )
 AS $$
     BEGIN
         RETURN QUERY
         SELECT
-            s.id AS sensor_id,
+            s.id,
             s.type_id,
             s.location,
             s.factory_id,

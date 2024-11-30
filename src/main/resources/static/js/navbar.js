@@ -29,6 +29,7 @@ function checkUserRole() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadData('/api/user/sensor/sensors', 'eventsTableBody');
+    loadDataEvent('/api/admin/event/events', 'eventsTableBody');
+    loadDataSensor('/api/user/sensor/sensors', 'sensorsTableBody');
     checkUserRole();
 });

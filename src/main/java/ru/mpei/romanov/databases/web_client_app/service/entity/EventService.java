@@ -1,22 +1,19 @@
 package ru.mpei.romanov.databases.web_client_app.service.entity;
 
 import ru.mpei.romanov.databases.web_client_app.entity.event.Event;
+import ru.mpei.romanov.databases.web_client_app.dto.request.EventRequestDto;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface EventService {
 
-    Optional<Event> findEventById(Long id);
-
-    Optional<Event> findEventByTime(LocalDateTime time);
+    Event findEventById(Long id);
 
     List<Event> findAllEvents();
 
-    void saveEvent(Event event);
+    void saveEvent(EventRequestDto eventRequestDto);
 
-    void updateEvent(Event event);
+    void updateEvent(Long id, Event event);
 
     void deleteEventById(Long id);
 }

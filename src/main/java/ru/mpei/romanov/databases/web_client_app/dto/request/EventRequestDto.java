@@ -1,16 +1,13 @@
 package ru.mpei.romanov.databases.web_client_app.dto.request;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
- * DTO for {@link ru.mpei.romanov.databases.web_client_app.entity.event.Event}
- */
 public record EventRequestDto(Long id,
+                              Long sensorId,
                               LocalDateTime time,
-                              BigDecimal airQuality,
-                              BigDecimal gasEmission,
-                              String loggingLevel,
-                              BigDecimal pressure,
-                              BigDecimal temperature) {
+                              Double temperature,
+                              Double pressure,
+                              Double gasEmission,
+                              Double airQuality,
+                              String loggingLevel) {
 }

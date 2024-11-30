@@ -1,40 +1,33 @@
 package ru.mpei.romanov.databases.web_client_app.repository.dto;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import ru.mpei.romanov.databases.web_client_app.dto.response.EventResponseDto;
-import ru.mpei.romanov.databases.web_client_app.dto.response.FactorySensorEventDto;
+import org.springframework.data.jpa.repository.JpaRepository;
 import ru.mpei.romanov.databases.web_client_app.entity.event.Event;
+import ru.mpei.romanov.databases.web_client_app.dto.response.FactorySensorEventResponseDto;
 
 import java.util.List;
+import java.sql.Timestamp;
 import java.util.Optional;
 
 public interface EventDtoRepository extends JpaRepository<Event, Long> {
 
-    @Query("""
-            SELECT new ru.mpei.romanov.databases.web_client_app.dto.response.EventResponseDto(
-            e.id, e.time, a.airQuality, g.gasEmission, l.loggingLevel, p.pressure, t.temperature)
-            FROM Event e
-            LEFT JOIN AirQualityEvent a ON e.id = a.id
-            LEFT JOIN GasEmissionEvent g ON a.id = g.id
-            LEFT JOIN LoggingEvent l ON g.id = l.id
-            LEFT JOIN PressureEvent p ON l.id = p.id
-            LEFT JOIN TemperatureEvent t ON p.id = t.id""")
-    Optional<List<EventResponseDto>> getAllEventsDto();
+    @Query(value = "SELECT * FROM public.factorysensorevents", nativeQuery = true)
+    Optional<List<Object[]>> getSensorEvents();
 
-    @Query("""
-            SELECT new ru.mpei.romanov.databases.web_client_app.dto.response.EventResponseDto(
-            e.id, e.time, a.airQuality, g.gasEmission, l.loggingLevel, p.pressure, t.temperature)
-            FROM Event e
-            LEFT JOIN AirQualityEvent a ON e.id = a.id
-            LEFT JOIN GasEmissionEvent g ON a.id = g.id
-            LEFT JOIN LoggingEvent l ON g.id = l.id
-            LEFT JOIN PressureEvent p ON l.id = p.id
-            LEFT JOIN TemperatureEvent t ON p.id = t.id
-            WHERE e.id = :id""")
-    Optional<EventResponseDto> getEventDtoById(@Param("id") Long id);
-
-    @Query(value = "SELECT * FROM factorysensorevents", nativeQuery = true)
-    Optional<List<FactorySensorEventDto>> getSensorEvents();
+    default List<FactorySensorEventResponseDto> getSensorEventsDto() {
+        List<Object[]> rawResults = getSensorEvents().orElseThrow(() -> new RuntimeException("No sensor events found"));
+        return rawResults.stream().map(result -> new FactorySensorEventResponseDto(
+                (String) result[0],
+                (String) result[1],
+                (String) result[2],
+                (String) result[3],
+                ((Timestamp) result[4]).toLocalDateTime(),
+                Double.parseDouble(result[5].toString()),
+                Double.parseDouble(result[6].toString()),
+                Double.parseDouble(result[7].toString()),
+                Double.parseDouble(result[8].toString()),
+                (String) result[9],
+                (String) result[10]
+        )).toList();
+    }
 }

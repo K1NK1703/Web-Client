@@ -51,26 +51,17 @@
             <!-- Events Table -->
             <div class="tab-content mt-3">
                 <div class="tab-pane fade show active" id="eventsTab" role="tabpanel">
-                    <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#addEventModal">Add new Event</button>
+                    <button type="button" class="btn btn-primary mb-3" onclick="openAddEventModal()">Add new Event</button>
                     <table class="table table-bordered">
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Time</th>
-                            <th>Air Quality</th>
-                            <th>Gas Emission</th>
-                            <th>Logging Level</th>
-                            <th>Pressure</th>
-                            <th>Temperature</th>
-                            <th>Actions</th>
+                            <th>Время</th>
+                            <th>Действия</th>
                         </tr>
                         </thead>
                         <tbody id="eventsTableBody"></tbody>
                     </table>
-
-                    <!-- Add Event Modal -->
-                    <!-- Modal code goes here -->
-
                 </div>
 
                 <!-- Editors Table -->
@@ -99,17 +90,15 @@
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Username</th>
-                            <th>Roles</th>
-                            <th>Actions</th>
+                            <th>Имя пользователя</th>
+                            <th>Роль</th>
+                            <th>Действия</th>
                         </tr>
                         </thead>
                         <tbody id="usersTableBody"></tbody>
                     </table>
                 </div>
-
             </div>
-
         </div>
 
         <!-- User Tab -->
@@ -123,6 +112,12 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="pill" href="#typesTab">Types</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#topSensorsTab">T_Func</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#longestFactoryValueTab">S_Func</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="pill" href="#sensorEventsTab">View</a>
@@ -181,14 +176,45 @@
                     </table>
                 </div>
 
+                <!-- Top Sensors Table (Table Function) -->
+                <div class="tab-pane fade" id="topSensorsTab" role="tabpanel">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Тип (Id)</th>
+                            <th>Местоположение</th>
+                            <th>Завод-производитель (Id)</th>
+                            <th>Дата установки</th>
+                            <th>Редактор (Id)</th>
+                            <th>Событие (Id)</th>
+                        </tr>
+                        </thead>
+                        <tbody id="topSensorsTableBody"></tbody>
+                    </table>
+                </div>
+
+                <!-- Longest Factory Value Table (Scalar Function) -->
+                <div class="tab-pane fade" id="longestFactoryValueTab" role="tabpanel">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Самое длинное название завода</th>
+                        </tr>
+                        </thead>
+                        <tbody id="longestFactoryValueTableBody"></tbody>
+                    </table>
+                </div>
+
+                <!-- Sensor Events Table (View) -->
                 <div class="tab-pane fade" id="sensorEventsTab" role="tabpanel">
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>Название фабрики</th>
-                            <th>Локация фабрики</th>
-                            <th>Локация сенсора</th>
-                            <th>Тип сенсора</th>
+                            <th>Завод-производитель</th>
+                            <th>Местоположение завода</th>
+                            <th>Местоположение датчика</th>
+                            <th>Тип</th>
                             <th>Время события</th>
                             <th>Температура</th>
                             <th>Давление</th>
@@ -200,11 +226,9 @@
                         </thead>
                         <tbody id="sensorEventsTableBody"></tbody>
                     </table>
-
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- Add Event Modal -->
@@ -224,24 +248,28 @@
                             <input type="datetime-local" class="form-control" id="eventTime" required>
                         </div>
                         <div class="form-group">
-                            <label for="eventAirQuality">Качество воздуха</label>
-                            <input type="number" step="0.01" class="form-control" id="eventAirQuality" required>
+                            <label for="sensorId">Датчик (Id)</label>
+                            <input type="number" class="form-control" id="sensorId" required>
                         </div>
                         <div class="form-group">
-                            <label for="eventGasEmission">Выброс газа</label>
-                            <input type="number" step="0.01" class="form-control" id="eventGasEmission" required>
+                            <label for="temperature">Температура</label>
+                            <input type="number" step="0.1" class="form-control" id="temperature">
                         </div>
                         <div class="form-group">
-                            <label for="eventLoggingLevel">Уровень логирования</label>
-                            <input type="text" class="form-control" id="eventLoggingLevel" required>
+                            <label for="pressure">Давление</label>
+                            <input type="number" step="0.1" class="form-control" id="pressure">
                         </div>
                         <div class="form-group">
-                            <label for="eventPressure">Давление</label>
-                            <input type="number" step="0.01" class="form-control" id="eventPressure" required>
+                            <label for="gasEmission">Выброс газа</label>
+                            <input type="number" step="0.1" class="form-control" id="gasEmission">
                         </div>
                         <div class="form-group">
-                            <label for="eventTemperature">Температура</label>
-                            <input type="number" step="0.01" class="form-control" id="eventTemperature" required>
+                            <label for="airQuality">Качество воздуха</label>
+                            <input type="number" step="0.1" class="form-control" id="airQuality">
+                        </div>
+                        <div class="form-group">
+                            <label for="loggingLevel">Уровень логирования</label>
+                            <input type="text" class="form-control" id="loggingLevel" required>
                         </div>
                     </form>
                 </div>
@@ -254,11 +282,11 @@
     </div>
 
     <!-- Edit Event Modal -->
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true">
+    <div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="editEventLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editLabel">Редактировать событие</h5>
+                    <h5 class="modal-title" id="editEventLabel">Редактировать событие</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -272,26 +300,6 @@
                         <div class="form-group">
                             <label for="editEventTime">Время</label>
                             <input type="datetime-local" class="form-control" id="editEventTime" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="editEventAirQuality">Качество воздуха</label>
-                            <input type="number" step="0.01" class="form-control" id="editEventAirQuality" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="editEventGasEmission">Выброс газа</label>
-                            <input type="number" step="0.01" class="form-control" id="editEventGasEmission" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="editEventLoggingLevel">Уровень логирования</label>
-                            <input type="text" class="form-control" id="editEventLoggingLevel" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="editEventPressure">Давление</label>
-                            <input type="number" step="0.01" class="form-control" id="editEventPressure" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="editEventTemperature">Температура</label>
-                            <input type="number" step="0.01" class="form-control" id="editEventTemperature" required>
                         </div>
                     </form>
                 </div>
@@ -678,20 +686,20 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <script type="text/javascript" src="/js/header.js"></script>
 <script type="text/javascript" src="/js/navbar.js"></script>
+<script type="text/javascript" src="/js/admin/events.js"></script>
 <script type="text/javascript" src="/js/admin/editors.js"></script>
 <script type="text/javascript" src="/js/admin/users.js"></script>
 <script type="text/javascript" src="/js/user/sensors.js"></script>
 <script type="text/javascript" src="/js/user/factories.js"></script>
 <script type="text/javascript" src="/js/user/types.js"></script>
-<script type="text/javascript" src="/js/user/sensorEvents.js"></script>
 
-<script type="text/javascript" src="/js/admin/test.js"></script>
-
+<script type="text/javascript" src="/js/user/table_function.js"></script>
+<script type="text/javascript" src="/js/user/scalar_function.js"></script>
+<script type="text/javascript" src="/js/user/view.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

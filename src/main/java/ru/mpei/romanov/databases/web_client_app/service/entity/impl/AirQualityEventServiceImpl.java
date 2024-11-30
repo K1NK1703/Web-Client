@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.mpei.romanov.databases.web_client_app.entity.event.AirQualityEvent;
-import ru.mpei.romanov.databases.web_client_app.repository.entity.event.AirQualityEventRepository;
 import ru.mpei.romanov.databases.web_client_app.service.entity.AirQualityEventService;
+import ru.mpei.romanov.databases.web_client_app.repository.entity.event.AirQualityEventRepository;
 
 import java.util.List;
 import java.util.Optional;

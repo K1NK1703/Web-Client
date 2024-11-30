@@ -2,10 +2,10 @@ package ru.mpei.romanov.databases.web_client_app.service.entity.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.mpei.romanov.databases.web_client_app.entity.Editor;
-import ru.mpei.romanov.databases.web_client_app.repository.entity.EditorRepository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.mpei.romanov.databases.web_client_app.service.entity.EditorService;
+import ru.mpei.romanov.databases.web_client_app.repository.entity.EditorRepository;
 
 import java.util.List;
 import java.util.Optional;

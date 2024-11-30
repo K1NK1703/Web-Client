@@ -1,19 +1,19 @@
 package ru.mpei.romanov.databases.web_client_app.service.entity.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import ru.mpei.romanov.databases.web_client_app.dto.request.UserRequestDto;
 import ru.mpei.romanov.databases.web_client_app.entity.Role;
 import ru.mpei.romanov.databases.web_client_app.entity.User;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import ru.mpei.romanov.databases.web_client_app.dto.request.UserRequestDto;
+import ru.mpei.romanov.databases.web_client_app.service.entity.UserService;
 import ru.mpei.romanov.databases.web_client_app.repository.entity.RoleRepository;
 import ru.mpei.romanov.databases.web_client_app.repository.entity.UserRepository;
-import ru.mpei.romanov.databases.web_client_app.service.entity.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
 
 @Service
 @Transactional
@@ -21,8 +21,8 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Optional<User> findUserById(Long id) {
@@ -32,11 +32,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findUserByUsername(String username) {
         return userRepository.findByUsername(username);
-    }
-
-    @Override
-    public List<User> findAllUsers() {
-        return userRepository.findAll();
     }
 
     @Override

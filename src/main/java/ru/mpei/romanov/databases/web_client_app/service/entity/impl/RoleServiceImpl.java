@@ -2,10 +2,10 @@ package ru.mpei.romanov.databases.web_client_app.service.entity.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.mpei.romanov.databases.web_client_app.entity.Role;
-import ru.mpei.romanov.databases.web_client_app.repository.entity.RoleRepository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.mpei.romanov.databases.web_client_app.service.entity.RoleService;
+import ru.mpei.romanov.databases.web_client_app.repository.entity.RoleRepository;
 
 import java.util.List;
 import java.util.Optional;

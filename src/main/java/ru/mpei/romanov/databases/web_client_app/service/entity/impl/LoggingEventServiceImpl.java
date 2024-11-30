@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.mpei.romanov.databases.web_client_app.entity.event.LoggingEvent;
-import ru.mpei.romanov.databases.web_client_app.repository.entity.event.LoggingEventRepository;
 import ru.mpei.romanov.databases.web_client_app.service.entity.LoggingEventService;
+import ru.mpei.romanov.databases.web_client_app.repository.entity.event.LoggingEventRepository;
 
 import java.util.List;
 import java.util.Optional;

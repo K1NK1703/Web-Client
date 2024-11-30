@@ -1,8 +1,8 @@
 package ru.mpei.romanov.databases.web_client_app.repository.entity;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.JpaRepository;
 import ru.mpei.romanov.databases.web_client_app.entity.Editor;
 
 public interface EditorRepository extends JpaRepository<Editor, Long> {

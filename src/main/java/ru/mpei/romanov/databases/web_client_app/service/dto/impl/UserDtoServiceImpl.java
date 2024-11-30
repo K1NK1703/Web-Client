@@ -2,14 +2,14 @@ package ru.mpei.romanov.databases.web_client_app.service.dto.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import ru.mpei.romanov.databases.web_client_app.dto.response.UserResponseDto;
 import ru.mpei.romanov.databases.web_client_app.entity.User;
-import ru.mpei.romanov.databases.web_client_app.repository.entity.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.mpei.romanov.databases.web_client_app.service.dto.UserDtoService;
+import ru.mpei.romanov.databases.web_client_app.dto.response.UserResponseDto;
+import ru.mpei.romanov.databases.web_client_app.repository.entity.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 @Service
 @Transactional

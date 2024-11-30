@@ -46,10 +46,7 @@ SELECT 'Factory F', 'Location 6'
 WHERE NOT EXISTS (SELECT 1 FROM Factories WHERE name = 'Factory F' AND location = 'Location 6')
 UNION ALL
 SELECT 'Factory G', 'Location 7'
-WHERE NOT EXISTS (SELECT 1 FROM Factories WHERE name = 'Factory G' AND location = 'Location 7')
-UNION ALL
-SELECT 'Factory K', 'Location 8'
-WHERE NOT EXISTS (SELECT 1 FROM Factories WHERE name = 'Factory K' AND location = 'Location 8');
+WHERE NOT EXISTS (SELECT 1 FROM Factories WHERE name = 'Factory G' AND location = 'Location 7');
 
 -- Вставка данных в таблицу Types
 INSERT INTO Types (name)
@@ -190,30 +187,14 @@ SELECT 80.1
 WHERE NOT EXISTS (SELECT 1 FROM AirQualityEvents WHERE air_quality = 80.1);
 
 -- Вставка данных в таблицу LoggingEvents
-INSERT INTO LoggingEvents (logging_level)
-SELECT 'INFO'
-WHERE NOT EXISTS (SELECT 1 FROM LoggingEvents WHERE logging_level = 'INFO')
-UNION ALL
-SELECT 'WARNING'
-WHERE NOT EXISTS (SELECT 1 FROM LoggingEvents WHERE logging_level = 'WARNING')
-UNION ALL
-SELECT 'ERROR'
-WHERE NOT EXISTS (SELECT 1 FROM LoggingEvents WHERE logging_level = 'ERROR')
-UNION ALL
-SELECT 'DEBUG'
-WHERE NOT EXISTS (SELECT 1 FROM LoggingEvents WHERE logging_level = 'DEBUG')
-UNION ALL
-SELECT 'INFO'
-WHERE NOT EXISTS (SELECT 1 FROM LoggingEvents WHERE logging_level = 'INFO')
-UNION ALL
-SELECT 'WARNING'
-WHERE NOT EXISTS (SELECT 1 FROM LoggingEvents WHERE logging_level = 'WARNING')
-UNION ALL
-SELECT 'INFO'
-WHERE NOT EXISTS (SELECT 1 FROM LoggingEvents WHERE logging_level = 'INFO')
-UNION ALL
-SELECT 'ERROR'
-WHERE NOT EXISTS (SELECT 1 FROM LoggingEvents WHERE logging_level = 'ERROR');
+INSERT INTO LoggingEvents (logging_level) VALUES
+    ('INFO'),
+    ('WARNING'),
+    ('ERROR'),
+    ('DEBUG'),
+    ('INFO'),
+    ('WARNING'),
+    ('ERROR');
 
 -- Вставка данных в таблицу Editors
 INSERT INTO Editors (last_name, first_name, middle_name, post, phone_number)

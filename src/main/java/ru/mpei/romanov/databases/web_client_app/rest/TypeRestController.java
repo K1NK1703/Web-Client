@@ -1,10 +1,16 @@
-package ru.mpei.romanov.databases.web_client_app.rest.out;
+package ru.mpei.romanov.databases.web_client_app.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ru.mpei.romanov.databases.web_client_app.entity.sensor.Type;
-import ru.mpei.romanov.databases.web_client_app.exception.TypeNotFoundException;
 import ru.mpei.romanov.databases.web_client_app.service.entity.TypeService;
 
 import java.util.List;
@@ -18,8 +24,7 @@ public class TypeRestController {
 
     @GetMapping
     public ResponseEntity<Type> getTypeById(@RequestParam("id") Long id) {
-        Type type = typeService.findTypeById(id)
-                .orElseThrow(() -> new TypeNotFoundException("Type " + id + " not found!"));
+        Type type = typeService.findTypeById(id);
         if (type != null) {
             return ResponseEntity.ok(type);
         }
